@@ -275,3 +275,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+
+service-account.json
+*/service-account.json
+*service-account.json

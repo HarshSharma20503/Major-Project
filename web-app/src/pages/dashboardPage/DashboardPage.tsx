@@ -25,12 +25,12 @@ const DashboardPage = () => {
           vapidKey: import.meta.env.VITE_VAPID_KEY,
         });
         console.log("Token", notificationToken);
-        // const response = await apiCall({
-        //   url: "/api/user/notification-token",
-        //   method: "POST",
-        //   data: { notificationToken },
-        // });
-        // console.log("Response", response);
+        const response = await apiCall({
+          url: "/api/subscription",
+          method: "POST",
+          data: { token: notificationToken },
+        });
+        console.log("Response", response);
       } else if (permission === "denied") {
         toast.error(
           "Please allow notification permission to get notified about stock updates"

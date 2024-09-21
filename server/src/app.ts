@@ -27,4 +27,8 @@ app.use("/api/auth", authRouter);
 import userRouter from "./routes/user.routes.js";
 app.use("/api/user", userRouter);
 
+// Import and use subscription routes
+import subscriptionRouter from "./routes/subscription.routes.js";
+app.use("/api/subscription", subscriptionRouter);
+
 export { app };

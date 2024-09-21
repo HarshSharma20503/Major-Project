@@ -1,5 +1,10 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { Messaging, getMessaging } from "firebase/messaging";
+import { ServiceAccount } from "firebase-admin";
+import serviceAccount from "./service-account.json" assert { type: "json" };
+import admin from "firebase-admin";
+import { assert } from "console";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -15,3 +20,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const messaging: Messaging = getMessaging(app);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as ServiceAccount),
+});
+
+export { admin, messaging, app };
