@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs"; // Changed to bcryptjs
 
 // Define interfaces for sub-schemas
 interface ICompany {

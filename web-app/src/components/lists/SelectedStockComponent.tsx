@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Table } from "react-bootstrap";
 import UpdateStockModal from "../modals/UpdateCompanyModal";
 import DeleteCompanyModal from "../modals/DeleteCompanyModal";
-import { UserInfo } from "../modals/DeleteCompanyModal"; // Adjust the path as necessary
+import { UserInfo } from "../../types"; // Adjust the path as necessary
 
 interface SelectedStocksComponentProps {
   userInfo: UserInfo;
@@ -26,22 +26,24 @@ const SelectedStocksComponent: React.FC<SelectedStocksComponentProps> = (
           </tr>
         </thead>
         <tbody>
-          {userInfo?.companies?.map((stock, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{stock.name}</td>
-              <td>{stock.quantity}</td>
-              <td className="d-flex">
-                <UpdateStockModal stock={stock} setUserInfo={setUserInfo} />
-                <br />
-                <DeleteCompanyModal
-                  stock={stock}
-                  userInfo={userInfo}
-                  setUserInfo={setUserInfo}
-                />
-              </td>
-            </tr>
-          ))}
+          {userInfo?.companies?.map(
+            (stock: { name: string; quantity: number }, index: number) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{stock.name}</td>
+                <td>{stock.quantity}</td>
+                <td className="d-flex">
+                  <UpdateStockModal stock={stock} setUserInfo={setUserInfo} />
+                  <br />
+                  <DeleteCompanyModal
+                    stock={stock}
+                    userInfo={userInfo}
+                    setUserInfo={setUserInfo}
+                  />
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </Table>
     </Container>

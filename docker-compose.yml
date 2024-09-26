@@ -1,0 +1,9 @@
+services:
+  web-app:
+    build: web-app
+    ports:
+      - "5173:5173"
+  server:
+    build: server
+    ports:
+      - "8000:8000"

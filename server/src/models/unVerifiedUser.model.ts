@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // Define the interface for UnverifiedUser
 interface IUnverifiedUser extends Document {
