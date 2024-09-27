@@ -9,6 +9,7 @@ import { User } from "../models/user.model.js";
 import { UnverifiedUser } from "../models/unVerifiedUser.model.js";
 import { generateJWTToken } from "../utils/JwtUtils.js";
 import { sendConfirmationMail } from "../utils/SendMail.js";
+import logger from "../utils/logger.js";
 
 interface AuthenticatedRequest extends Request {
   user?: typeof User & { _id: string };
@@ -121,6 +122,7 @@ Post Request
 */
 const loginUser = AsyncHandler(async (req: Request, res: Response) => {
   console.log("******** loginUser Function ********");
+  logger.debug("Inside the loginUser Function");
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ApiError(400, "All fields are required");
