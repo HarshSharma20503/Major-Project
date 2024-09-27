@@ -53,7 +53,7 @@ const handleApiError = (error: any) => {
       case 401:
         console.error("Unauthorized access. Please log in again.");
         localStorage.removeItem("user");
-        window.location.href = "/login";
+        // window.location.href = "/login";
         break;
       case 404:
         console.error("Requested resource not found.");
@@ -93,6 +93,10 @@ export const apiCall = async <T>({
     return response.data ?? null; // Handle null or undefined data
   } catch (error) {
     handleApiError(error); // Handle errors using the internal error handler
-    return null;
+    if (axios.isAxiosError(error)) {
+      return error.response?.data;
+    } else {
+      return null;
+    }
   }
 };

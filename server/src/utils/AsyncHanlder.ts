@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "../types.js";
+import logger from "./logger.js";
 
 const AsyncHandler = (
   fn: (
@@ -16,8 +17,7 @@ const AsyncHandler = (
     try {
       await fn(req, res, next);
     } catch (error: any) {
-      console.log("******** Inside AsyncHandler ********");
-      console.error("Error: ", error);
+      logger.error(error.message);
       res.status(error.statusCode || 500).json({
         success: false,
         message: error.message || "Internal Server Error",

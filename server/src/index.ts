@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import { app } from "./app.js";
+import logger from "./utils/logger.js";
 // import { GetLatestNews } from "./scripts/GetNews";
 
 dotenv.config();
@@ -15,9 +16,9 @@ app.get("/", (req, res) => {
 
 connectDB()
   .then(() => {
-    console.log("Database connected");
+    logger.info("Database connected");
     app.listen(port, async () => {
-      console.log(`Server listening on port ${port}`);
+      logger.info(`Server listening on port ${port}`);
       // await GetLatestNews();
       // sendNotification(
       //   "fBLBQHRJO7p6xY3sZ8-W2k:APA91bEfE1dcwVQX-SJ1QPlVdQ5sv8Aoih3PV1rh1TN7SlL5_Ut9-pp3nur1kPz5ElqI9ne_N1f3hz2OyEcw9VkxLBTc3O21jyvZxgP_zsnKUNEyo9iNLglu9lR4325mFk9-TyQlljRg",
@@ -30,5 +31,5 @@ connectDB()
     });
   })
   .catch((err: Error) => {
-    console.log(err.message);
+    logger.error(err.message);
   });

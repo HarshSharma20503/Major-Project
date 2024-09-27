@@ -26,33 +26,24 @@ const Login = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-
-    try {
-      // const { data } = await axios.post("/api/auth/login", formData);
-      interface ApiResponse {
-        data: {
-          _id: string;
-          name: string;
-          email: string;
-          token: string;
-        };
-      }
-      const data = await apiCall<ApiResponse>({
-        url: "/api/auth/login",
-        method: "POST",
-        data: formData,
-      });
-      console.log("Data : ", data);
+    type ApiResponse = {
+      success: boolean;
+      message: string;
+      data?: { success: boolean; message: string };
+    };
+    const data = await apiCall<ApiResponse>({
+      url: "/api/auth/login",
+      method: "POST",
+      data: formData,
+    });
+    console.log(data);
+    if (data?.success) {
       localStorage.setItem("user", JSON.stringify(data?.data));
       toast.success("Login Successful");
       navigate("/dashboard");
-    } catch (err: any) {
-      if (err.response?.data?.message) {
-        toast.error(err.response.data.message);
-      }
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (

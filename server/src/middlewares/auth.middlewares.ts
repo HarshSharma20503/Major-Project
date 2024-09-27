@@ -4,12 +4,13 @@ import { ApiError } from "../utils/ApiError.js";
 import { AsyncHandler } from "../utils/AsyncHanlder.js";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { AuthenticatedRequest } from "../types.js";
+import logger from "../utils/logger.js";
 
 // Extend Express Request interface to include user property
 
 export const verifyJWT = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    console.log("************* Inside VerifyJWT Middleware *************");
+    logger.debug("Inside the verifyJWT function");
     try {
       const token =
         req.cookies?.accessToken ||

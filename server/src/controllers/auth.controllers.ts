@@ -20,21 +20,20 @@ interface AuthenticatedRequest extends Request {
 Post Request
 */
 const registerUser = AsyncHandler(async (req: Request, res: Response) => {
-  console.log("******** registerUser Function ********");
+  logger.debug("Inside the registerUser function");
   const { name, email, password } = req.body;
-  console.log("User details", name, email, password);
   if (!name || !email || !password) {
     throw new ApiError(400, "All fields are required");
   }
 
   const existingUser = await User.findOne({ email });
-  console.log("Existing User", existingUser);
+
   if (existingUser) {
     throw new ApiError(400, "User already exists");
   }
 
   const existingUnverifiedUser = await UnverifiedUser.findOne({ email });
-  console.log("Existing Unverified User", existingUnverifiedUser);
+
   if (existingUnverifiedUser) {
     throw new ApiError(
       400,
@@ -79,7 +78,7 @@ const registerUser = AsyncHandler(async (req: Request, res: Response) => {
 Get Request
 */
 const confirmEmail = AsyncHandler(async (req: Request, res: Response) => {
-  console.log("******** confirmEmail Function ********");
+  logger.debug("Inside the confirmEmail function");
   const { id } = req.params;
   if (!id) {
     throw new ApiError(400, "Invalid request");
@@ -90,15 +89,11 @@ const confirmEmail = AsyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(404, "User not found");
   }
 
-  console.log("Unverified User Password", unverifiedUser.password);
-
   const user = await User.create({
     name: unverifiedUser.name,
     email: unverifiedUser.email,
     password: unverifiedUser.password,
   });
-
-  console.log("Verified User", user.password);
 
   if (!user) {
     throw new ApiError(500, "Failed to create User");
@@ -121,30 +116,25 @@ const confirmEmail = AsyncHandler(async (req: Request, res: Response) => {
 Post Request
 */
 const loginUser = AsyncHandler(async (req: Request, res: Response) => {
-  console.log("******** loginUser Function ********");
   logger.debug("Inside the loginUser Function");
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ApiError(400, "All fields are required");
   }
 
-  console.log("User details", email, password);
-
   const user = await User.findOne({ email });
 
-  console.log("User : ", user);
   if (!user) throw new ApiError(400, "User not found");
 
   const jwtToken = generateJWTToken(user._id as string);
 
-  console.log("JWT Token : ", jwtToken);
   const expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
 
   const checkPassword = await user.matchPassword(password);
-  console.log("Check Password : ", checkPassword);
+
+  logger.debug("Check Password: " + checkPassword);
 
   if (user && (await user.matchPassword(password))) {
-    console.log("Inside match password");
     return res
       .status(200)
       .cookie("accessToken", jwtToken, {
@@ -169,7 +159,7 @@ const loginUser = AsyncHandler(async (req: Request, res: Response) => {
 });
 
 const logoutUser = AsyncHandler(async (req: Request, res: Response) => {
-  console.log("******** logoutUser Function ********");
+  logger.debug("Inside the logoutUser Function");
   return res
     .status(200)
     .clearCookie("accessToken")

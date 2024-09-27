@@ -5,7 +5,6 @@ import path from "path";
 const { combine, timestamp, json, printf, colorize, errors } = format;
 
 const env = process.env.NODE_ENV || "development";
-console.log("env: ", env);
 
 // Custom formats
 const consoleLogFormat = printf(({ level, message, timestamp, stack }) => {

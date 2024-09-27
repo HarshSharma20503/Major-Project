@@ -3,6 +3,7 @@ import { AsyncHandler } from "../utils/AsyncHanlder.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
+import logger from "../utils/logger.js";
 
 interface AuthenticatedRequest extends Request {
   user?: typeof User & { _id: string };
@@ -14,7 +15,7 @@ GET Request
 */
 const getUser = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    console.log("************* Inside GetUser Controller *************");
+    logger.debug("Inside the getUser function");
     if (!req.user) {
       throw new ApiError(401, "Unauthorized: User not authenticated");
     }
@@ -32,7 +33,7 @@ POST Request
 */
 const addCompany = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    console.log("************* Inside AddCompany Controller *************");
+    logger.debug("Inside the addCompany function");
     const { company, stockUnits }: { company: string; stockUnits: number } =
       req.body;
 
@@ -49,7 +50,6 @@ const addCompany = AsyncHandler(
     }
 
     const index = user.companies.findIndex((item) => item.name === company);
-    console.log("Index: ", index);
 
     if (index !== -1) {
       throw new ApiError(400, "Company already exists");
@@ -68,7 +68,7 @@ POST Request
 */
 const removeStock = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    console.log("************* Inside RemoveStock Controller *************");
+    logger.debug("Inside the removeStock function");
     const { company }: { company: string } = req.body;
     if (!company) {
       throw new ApiError(400, "Company is required");
@@ -92,9 +92,7 @@ POST Request
 */
 const updateCompanyStock = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    console.log(
-      "************* Inside UpdateCompanyStock Controller *************"
-    );
+    logger.debug("Inside the updateCompanyStock function");
     const { company, stockUnits }: { company: string; stockUnits: number } =
       req.body;
     if (!company || !stockUnits) {

@@ -77,10 +77,7 @@ const userSchema = new Schema<IUser>(
 userSchema.methods.matchPassword = async function (
   enteredPassword: string
 ): Promise<boolean> {
-  console.log("Entered Password:", enteredPassword);
   const temp = await bcrypt.hash(enteredPassword, 12);
-  console.log("Temp: ", temp);
-  console.log("Password: ", this.password);
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

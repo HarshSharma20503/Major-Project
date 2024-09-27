@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
+import logger from "./logger.js";
 
 dotenv.config();
 
@@ -34,7 +35,7 @@ const generateMailHtml = (id: string): string => {
 
 // Function to send confirmation email
 const sendConfirmationMail = async (to: string, id: string) => {
-  console.log("************* Inside SendConfirmationMail *************");
+  logger.debug("Inside sendConfirmationMail function");
   try {
     // Generate HTML content with dynamic data
     const emailHtml = generateMailHtml(id);
@@ -47,10 +48,10 @@ const sendConfirmationMail = async (to: string, id: string) => {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log("Verification Email sent successfully");
+    logger.info("Verification email sent successfully");
     return true;
   } catch (error) {
-    console.log("Error while sending verification email", error);
+    logger.error("Error sending verification email: ", error);
     return false;
   }
 };

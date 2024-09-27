@@ -1,13 +1,12 @@
 import { admin } from "../config/firebase.js";
 import { Notification } from "../types.js";
+import logger from "./logger.js";
 
 export const sendNotification = async (
   token: string,
   notification: Notification
 ) => {
-  console.log("******** Inside the sendNotification function ********");
-  console.log("token", token);
-  console.log("Notification", notification);
+  logger.debug("Inside the sendNotification function");
 
   admin
     .messaging()
@@ -19,9 +18,9 @@ export const sendNotification = async (
       },
     })
     .then((response) => {
-      console.log("Multicast notification sent:", response);
+      logger.debug("Successfully sent message:", response);
     })
     .catch((error) => {
-      console.error("Error sending multicast notification:", error);
+      logger.error("Error sending message:", error);
     });
 };

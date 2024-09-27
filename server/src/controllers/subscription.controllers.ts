@@ -5,10 +5,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { AsyncHandler } from "../utils/AsyncHanlder.js";
 import { Request, Response } from "express";
 import { AuthenticatedRequest } from "../types.js";
+import logger from "../utils/logger.js";
 
 export const createSubscription = AsyncHandler(
   async (req: AuthenticatedRequest, res: Response) => {
-    console.log("******** Inside the createSubscription controller ********");
+    logger.debug("Inside the createSubscription function");
     const { token } = req.body;
     const id = req.user._id;
     if (!token) {
